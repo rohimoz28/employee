@@ -34,4 +34,18 @@ class Employee extends CI_Controller
         $data = $this->employee_model->save();
         echo json_encode($data);
     }
+
+    public function destroy()
+    {
+        if ($this->input->is_ajax_request()) {
+
+            $this->employee_model->delete();
+
+            $msg = [
+                'success' => 'Data employee has been deleted!'
+            ];
+
+            echo json_encode($msg);
+        }
+    }
 }

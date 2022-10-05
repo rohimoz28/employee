@@ -101,6 +101,7 @@
     <script type="text/javascript" src="<?php echo base_url() . 'assets/js/dataTables.bootstrap4.js' ?>"></script> -->
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // show employee list
         function showData() {
@@ -114,6 +115,41 @@
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError)
+                }
+            })
+        }
+
+        // delete employee
+        function destroy(id) {
+            Swal.fire({
+                title: 'Delete Confirmation',
+                text: "Delete this employee?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= site_url('employee/destroy') ?>",
+                        dataType: "json",
+                        data: {
+                            id: id
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: 'Data employee has been deleted!'
+                                })
+                                showData()
+                            }
+                        }
+                    })
                 }
             })
         }
@@ -140,6 +176,13 @@
                         $('[name="nik"]').val("")
                         $('[name="name"]').val("")
                         $('[name="mobile"]').val("")
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'New employee has been added!',
+                        })
+
                         $('#Modal_Add').modal('hide')
                         $('.modal-backdrop').remove()
                         showData()

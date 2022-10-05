@@ -19,4 +19,11 @@ class Employee_model extends CI_Model
         $result = $this->db->insert('employees', $data);
         return $result;
     }
+
+    function delete()
+    {
+        $id = $this->input->post('id');
+
+        return $this->db->delete('employees', ['id' => $id]);
+    }
 }

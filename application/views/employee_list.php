@@ -17,8 +17,8 @@
                 <td><?= $employee->name ?></td>
                 <td><?= $employee->mobile ?></td>
                 <td style="text-align: right;">
-                    <a href="" class="btn btn-info btn-sm">Edit</a>
-                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                    <button type="button" class="btn btn-info btn-sm" onclick="update('<?= $employee->id ?>')">Update</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="destroy('<?= $employee->id ?>')">Delete</button>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -27,6 +27,13 @@
 
 <script>
     $(document).ready(function() {
+
         $('#table_list').DataTable()
+
     })
+
+
+    function update(id) {
+
+    }
 </script>
