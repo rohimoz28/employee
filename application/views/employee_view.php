@@ -105,7 +105,9 @@
         // show employee list
         function showData() {
             $.ajax({
+                type: "GET",
                 url: "<?= site_url('employee/employee_data') ?>",
+                async: true,
                 dataType: "json",
                 success: function(response) {
                     $('.list-employee').html(response.data)
@@ -127,7 +129,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "<?= site_url('employee/save   ') ?>",
+                    url: "<?= site_url('employee/save') ?>",
                     dataType: "json",
                     data: {
                         nik,
@@ -139,9 +141,12 @@
                         $('[name="name"]').val("")
                         $('[name="mobile"]').val("")
                         $('#Modal_Add').modal('hide')
+                        $('.modal-backdrop').remove()
+                        showData()
                     }
                 })
             })
+
         })
     </script>
 
