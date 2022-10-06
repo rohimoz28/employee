@@ -29,9 +29,45 @@ class Employee extends CI_Controller
         }
     }
 
+    public function add()
+    {
+        if ($this->input->is_ajax_request()) {
+            $msg = [
+                'data' => $this->load->view('modal_add', '', true)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            exit('Data tidak dapat di proses!');
+        }
+    }
+
     public function save()
     {
         $data = $this->employee_model->save();
+        echo json_encode($data);
+    }
+
+    public function edit()
+    {
+        $id = $this->input->post('id');
+        $query = $this->db->get_where('employees', ['id' => $id]);
+        $employee = $query->row();
+
+        $data = [
+            'id' => $employee->id,
+            'nik' => $employee->nik,
+            'name' => $employee->name,
+            'mobile' => $employee->mobile
+        ];
+
+        $msg = ['success' => $this->load->view('modal_edit', $data, true)];
+        echo json_encode($msg);
+    }
+
+    public function update()
+    {
+        $data = $this->employee_model->update();
         echo json_encode($data);
     }
 

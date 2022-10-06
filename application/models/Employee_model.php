@@ -20,6 +20,19 @@ class Employee_model extends CI_Model
         return $result;
     }
 
+    public function update()
+    {
+        $id = $this->input->post('id');
+        $data = [
+            'nik' => $this->input->post('nik'),
+            'name' => $this->input->post('name'),
+            'mobile' => $this->input->post('mobile')
+        ];
+
+        $result = $this->db->update('employees', $data, ['id' => $id]);
+        return $result;
+    }
+
     function delete()
     {
         $id = $this->input->post('id');

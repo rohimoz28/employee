@@ -31,9 +31,4 @@
         $('#table_list').DataTable()
 
     })
-
-
-    function update(id) {
-
-    }
 </script>

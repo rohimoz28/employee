@@ -26,7 +26,8 @@
                 <div class="col-md-12">
                     <h1>Employee
                         <small>List</small>
-                        <div class="float-right"><a href="javascript:void(0);" class="btn btn-primary" data-toggle="modal" data-target="#Modal_Add"><span class="fa fa-plus"></span> Add New</a></div>
+                        <!-- <div class="float-right"><a href="javascript:void(0);" class="btn btn-primary" data-toggle="modal" data-target="#Modal_Add"><span class="fa fa-plus"></span> Add New</a></div> -->
+                        <div class="float-right"><button class="btn btn-primary" id="btn_add"><span class="fa fa-plus"></span> Add New</button></div>
                     </h1>
                 </div>
 
@@ -43,48 +44,7 @@
 
     </div>
 
-    <!-- MODAL ADD -->
-    <form>
-        <div class="modal fade" id="Modal_Add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New Employee</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">NIK</label>
-                            <div class="col-md-10">
-                                <input type="text" name="nik" id="nik" class="form-control" placeholder="NIK">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Name</label>
-                            <div class="col-md-10">
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Name">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Mobile</label>
-                            <div class="col-md-10">
-                                <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Mobile">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" type="submit" id="btn_save" class="btn btn-primary">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-    <!--END MODAL ADD-->
-
-
+    <div class="view_modal" style="display: none;"></div>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -115,6 +75,23 @@
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError)
+                }
+            })
+        }
+
+        function update(id) {
+            $.ajax({
+                type: "POST",
+                url: "<?= site_url('employee/edit') ?>",
+                dataType: "json",
+                data: {
+                    id
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('.viewmodal').html(response.success).show()
+                        $('#Modal_Edit').modal('show')
+                    }
                 }
             })
         }
@@ -158,38 +135,20 @@
             showData() // call function show list employee
 
             // add new employee
-            $('#btn_save').on('click', function() {
-                const nik = $('#nik').val()
-                const name = $('#name').val()
-                const mobile = $('#mobile').val()
-
+            $('#btn_add').click(function(event) {
+                event.preventDefault()
                 $.ajax({
-                    type: "POST",
-                    url: "<?= site_url('employee/save') ?>",
+                    url: "<?= site_url('employee/add') ?>",
                     dataType: "json",
-                    data: {
-                        nik,
-                        name,
-                        mobile
-                    },
                     success: function(response) {
-                        $('[name="nik"]').val("")
-                        $('[name="name"]').val("")
-                        $('[name="mobile"]').val("")
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'New employee has been added!',
-                        })
-
-                        $('#Modal_Add').modal('hide')
-                        $('.modal-backdrop').remove()
-                        showData()
+                        $('.view_modal').html(response.data).show()
+                        $('#Modal_Add').modal('show')
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError)
                     }
                 })
             })
-
         })
     </script>
 
