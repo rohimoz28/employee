@@ -50,25 +50,34 @@ class Employee extends CI_Controller
 
     public function edit()
     {
-        $id = $this->input->post('id');
-        $query = $this->db->get_where('employees', ['id' => $id]);
-        $employee = $query->row();
+        if ($this->input->is_ajax_request()) {
+            $id = $this->input->post('id');
+            $query = $this->db->get_where('employees', ['id' => $id]);
+            $employee = $query->row();
 
-        $data = [
-            'id' => $employee->id,
-            'nik' => $employee->nik,
-            'name' => $employee->name,
-            'mobile' => $employee->mobile
-        ];
+            $data = [
+                'id' => $employee->id,
+                'nik' => $employee->nik,
+                'name' => $employee->name,
+                'mobile' => $employee->mobile
+            ];
 
-        $msg = ['success' => $this->load->view('modal_edit', $data, true)];
-        echo json_encode($msg);
+            $msg = ['success' => $this->load->view('modal_edit', $data, true)];
+            echo json_encode($msg);
+        } else {
+            exit('Data tidak dapat di proses!');
+        }
     }
 
     public function update()
     {
-        $data = $this->employee_model->update();
-        echo json_encode($data);
+        if ($this->input->is_ajax_request()) {
+            $this->employee_model->update();
+            $msg = ['success' => 'Employee has been updated!'];
+            echo json_encode($msg);
+        } else {
+            exit('Data tidak dapat di proses!');
+        }
     }
 
     public function destroy()

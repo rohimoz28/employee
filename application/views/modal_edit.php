@@ -39,3 +39,29 @@
 </div>
 </form>
 <!--END MODAL EDIT-->
+
+<script>
+    $(document).ready(function() {
+        $('.form_employee').submit(function(event) {
+            event.preventDefault()
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                dataType: "json",
+                data: $(this).serialize(),
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'New employee has been updated!'
+                    })
+                    $('#Modal_Edit').modal('hide')
+                    showData()
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError)
+                }
+            })
+        })
+    })
+</script>

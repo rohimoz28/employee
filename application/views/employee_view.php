@@ -79,22 +79,22 @@
             })
         }
 
-        function update(id) {
-            $.ajax({
-                type: "POST",
-                url: "<?= site_url('employee/edit') ?>",
-                dataType: "json",
-                data: {
-                    id
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('.viewmodal').html(response.success).show()
-                        $('#Modal_Edit').modal('show')
-                    }
-                }
-            })
-        }
+        // function update(id) {
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "<?= site_url('employee/edit') ?>",
+        //         dataType: "json",
+        //         data: {
+        //             id
+        //         },
+        //         success: function(response) {
+        //             if (response.success) {
+        //                 $('.viewmodal').html(response.success).show()
+        //                 $('#Modal_Edit').modal('show')
+        //             }
+        //         }
+        //     })
+        // }
 
         // delete employee
         function destroy(id) {
